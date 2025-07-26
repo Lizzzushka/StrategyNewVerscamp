@@ -18,6 +18,7 @@ class Strategy:
         self,
     ) -> None:
         self.we_active = False
+        self.
 
     def process(self, field: fld.Field) -> list[Optional[Action]]:
         """Game State Management"""
@@ -81,3 +82,6 @@ class Strategy:
         - actions[9] = Actions.BallGrab(0.0)
                 The robot number 9 grabs the ball at an angle of 0.0 (it looks to the right, along the OX axis)
         """
+        vecpovorot = (aux.Point(field.ball.get_pos().x+500))
+        vecpovorot2 = aux.rotate(vecpovorot, (3.14/4*2)+3.14 + time()/3)
+        actions[2] = Actions.GoToPoint(field.ball.get_pos() + vecpovorot2, 0)
