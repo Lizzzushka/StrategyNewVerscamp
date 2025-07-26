@@ -126,4 +126,9 @@ class Strategy:
 
         angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
         vecBallRob = aux.point_on_line(field.ball.get_pos(), field.enemies[0].get_pos(), -500)    
-        actions[self.idx] = Actions.GoToPointIgnore(vecBallRob, angell)     
+        actions[self.idx] = Actions.GoToPointIgnore(vecBallRob, angell)  
+        print(field.allies[self.idx].get_pos())
+
+
+
+        
