@@ -60,30 +60,33 @@ class Strategy:
 
         return actions
 
+    def choose_on_goal(field: fld.Field, actions: list[Action]) -> None:
+        anglelU = abs(aux.get_angle_between_points(field.enemies[const.ENEMY_GK].get_pos(), field.allies[self.idx].get_pos(), field.enemy_goal.down))
+        anglelD = abs(aux.get_angle_between_points(field.enemies[const.ENEMY_GK].get_pos(), field.allies[self.idx].get_pos(), field.enemy_goal.up))
+        if anglelD > anglelU:
+            go = field.enemy_goal.down + (field.enemy_goal.eye_up * 110)
+        else:
+             go = field.enemy_goal.down + (field.enemy_goal.eye_up * -110)   
+        actions[self.idx] = Actions.Kick(go)    
+        
+
+
     def run(self, field: fld.Field, actions: list[Optional[Action]]) -> None:
-        """
-        ONE ITERATION of strategy
-        NOTE: robots will not start acting until this function returns an array of actions,
-              if an action is overwritten during the process, only the last one will be executed)
 
-        Examples of getting coordinates:
-        - field.allies[8].get_pos(): aux.Point -   coordinates  of the 8th  robot from the allies
-        - field.enemies[14].get_angle(): float - rotation angle of the 14th robot from the opponents
+        angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
+        if field.ally_color == const.Color.YELLOW:
+            self.choose_on_goal(field, actions)
+        else:
+             vecBallRob2 = aux.get_line_intersection(field.ball.get_pos(), field.enemies[self.idx].get_pos(), field.ally_goal.center_up, "RS")   
 
-        - field.ally_goal.center: Point - center of the ally goal
-        - field.enemy_goal.hull: list[Point] - polygon around the enemy goal area
-
-
-        Examples of robot control:
-        - actions[2] = Actions.GoToPoint(aux.Point(1000, 500), math.pi / 2)
-                The robot number 2 will go to the point (1000, 500), looking in the direction π/2 (up, along the OY axis)
-
-        - actions[3] = Actions.Kick(field.enemy_goal.center)
-                The robot number 3 will hit the ball to 'field.enemy_goal.center' (to the center of the enemy goal)
-
-        - actions[9] = Actions.BallGrab(0.0)
-                The robot number 9 grabs the ball at an angle of 0.0 (it looks to the right, along the OX axis)
-        """
+        if vecBallRob2 is None:
+            vecBallRob2 = field.ally_goal.center_up()
+        actions[const.GK] = Actions[vecBallRob2, angell]
+        """vecBallRob = aux.point_on_line(field.ball.get_pos(), field.enemies[0].get_pos(), -500)    
+        actions[self.idx] = Actions.GoToPointIgnore(vecBallRob, angell)  
+        print(field.allies[self.idx].get_pos())
+     
+       
         """angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
         if self.puinum == 1:
             actions[self.idx] = Actions.GoToPointIgnore(field.ball.get_pos(), angell)
@@ -123,11 +126,7 @@ class Strategy:
         else:
             mediana = (pointintr1 + pointintr2 + pointintr3) / 3
             print(mediana) """    
-
-        angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
-        vecBallRob = aux.point_on_line(field.ball.get_pos(), field.enemies[0].get_pos(), -500)    
-        actions[self.idx] = Actions.GoToPointIgnore(vecBallRob, angell)  
-        print(field.allies[self.idx].get_pos())
+ 
 
 
 
