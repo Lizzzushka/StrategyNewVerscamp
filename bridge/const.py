@@ -46,7 +46,7 @@ class Div(Enum):
 
 ##################################################
 # GAME SETTING CONSTS
-DIV = Div.B
+DIV = Div.C 
 COLOR = Color.YELLOW
 POLARITY = 1  # -1 если ворота синих на +x; 1 если ворота синих на -x
 
@@ -55,8 +55,8 @@ SELF_PLAY = False
 
 DEBUG_HALF = 0  # 1 = +x, -1 = -x, 0 = not debug
 
-GK = 5
-ENEMY_GK = 5
+GK = 1
+ENEMY_GK = 1
 
 ROBOTS_MAX_COUNT: int = 32
 TEAM_ROBOTS_MAX_COUNT: int = ROBOTS_MAX_COUNT // 2
