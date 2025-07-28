@@ -82,12 +82,12 @@ class Strategy:
         if vecBallRob2 is None:
             vecBallRob2 = field.ally_goal.center_up()
         actions[const.GK] = Actions[vecBallRob2, angell]
-        """vecBallRob = aux.point_on_line(field.ball.get_pos(), field.enemies[0].get_pos(), -500)    
+        vecBallRob = aux.point_on_line(field.ball.get_pos(), field.enemies[0].get_pos(), -500)    
         actions[self.idx] = Actions.GoToPointIgnore(vecBallRob, angell)  
         print(field.allies[self.idx].get_pos())
      
        
-        """angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
+        angell =  (field.ball.get_pos() - field.allies[self.idx].get_pos()).arg()
         if self.puinum == 1:
             actions[self.idx] = Actions.GoToPointIgnore(field.ball.get_pos(), angell)
 
@@ -125,9 +125,4 @@ class Strategy:
             print("Нет пересечений")
         else:
             mediana = (pointintr1 + pointintr2 + pointintr3) / 3
-            print(mediana) """    
- 
-
-
-
-        
+            print(mediana) 
