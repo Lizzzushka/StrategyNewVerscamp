@@ -1,3 +1,4 @@
+playColor = "yellow" #"blue"
 """
 Определение необходимых констант
 """
@@ -46,8 +47,11 @@ class Div(Enum):
 
 ##################################################
 # GAME SETTING CONSTS
-DIV = Div.C 
-COLOR = Color.YELLOW
+DIV = Div.C
+if playColor == "blue":
+    COLOR = Color.BLUE
+else:
+    COLOR = Color.YELLOW
 POLARITY = 1  # -1 если ворота синих на +x; 1 если ворота синих на -x
 
 IS_SIMULATOR_USED = True
