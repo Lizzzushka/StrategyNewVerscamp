@@ -5,15 +5,15 @@ from bridge.auxiliary import aux, fld, rbt  # type: ignore
 from bridge.const import State as GameStates
 from bridge.router.base_actions import Action, Actions, KickActions 
 
-voltage_kik = 15
-voltage_pas = 4
+voltage_kik = 8
+voltage_pas = 5
 
 
 class Goalkeeper():
     def __init__(self) -> None:
 
         # Индексы моих роботов
-        self.gk_idx = 1
+        self.gk_idx = const.GK
         self.idx1 = 0   
         self.idx2 =  2 
     
@@ -22,35 +22,35 @@ class Goalkeeper():
         self.idx_enem1 = 0
         self.idx_enem2 = 2
 
-    def goalkeeper(self, field: fld.Field, actions: list[Action]) -> None:
+    def rungoal(self, field: fld.Field, actions: list[Optional[Action]]) -> None:
         
-        robot_pos_gk = field.allies[self.gk_idx].get_pos()
+        robot_pos_GK = field.allies[self.gk_idx].get_pos()
         robot_pos1 = field.allies[self.idx1].get_pos()
         robot_pos2 = field.allies[self.idx2].get_pos()
     
-        robot_pos_gk_enem = field.enemies[self.gk_idx_enem].get_pos()
+        robot_pos_GK_enem = field.enemies[self.gk_idx_enem].get_pos()
         robot_pos1_enem = field.enemies[self.idx_enem1].get_pos()
         robot_pos2_enem = field.enemies[self.idx_enem2].get_pos()
     
         ball = field.ball.get_pos()
 
 
-        g_up_xy_goal = field.enemy_goal.up - field.enemy_goal.eye_up * 65    #угол от ворот противоположный вратарю
-        g_down_xy_goal = field.enemy_goal.down + field.enemy_goal.eye_up * 65 #угол от ворот противоположный вратарю
+        g_up_xy_goal = field.enemy_goal.up - field.enemy_goal.eye_up * 75    
+        g_down_xy_goal = field.enemy_goal.down + field.enemy_goal.eye_up * 75 
 
-        up_goal = (g_up_xy_goal - robot_pos_gk_enem).mag()
-        down_goal = (robot_pos_gk_enem + g_down_xy_goal).mag()
+        up_goal = (g_up_xy_goal - robot_pos_GK_enem).mag()
+        down_goal = (robot_pos_GK_enem + g_down_xy_goal).mag()
 
         if up_goal > down_goal:
             goal_position_gates = g_up_xy_goal
         else:
             goal_position_gates = g_down_xy_goal     
 
-        angle_goal_ball = (goal_position_gates - robot_pos_gk).arg()
+        angle_goal_ball = (goal_position_gates - robot_pos_GK).arg()
 
 
         if field.ball_start_point is not None:
-            goal_position = aux.closest_point_on_line(field.ball_start_point, ball, robot_pos_gk, "R")
+            goal_position = aux.closest_point_on_line(field.ball_start_point, ball, robot_pos_GK, "R")
         else:
             goal_position = field.ally_goal.center
 
@@ -59,9 +59,9 @@ class Goalkeeper():
         if position_goal == False:
             goal_position = field.ally_goal.center
 
-        angle_goalkeeper = (ball - robot_pos_gk).arg()
+        angle_goalkeeper = (ball - robot_pos_GK).arg()
     
-        actions[self.gk_idx] = Actions.GoToPoint(goal_position, angle_goal_ball)
+        actions[self.gk_idx] = Actions.GoToPoint(goal_position, angle_goalkeeper)
 
     
         if field.is_ball_stop_near_goal():
